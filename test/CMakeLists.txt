@@ -1,0 +1,20 @@
+add_executable(test_fun test_fun.c)
+target_link_libraries(test_fun PRIVATE arithmos)
+
+add_executable(test_big_int test_big_int.c)
+target_link_libraries(test_big_int PRIVATE arithmos)
+add_executable(test_gcd test_gcd.c)
+target_link_libraries(test_gcd PRIVATE arithmos)
+add_executable(test_lcm test_lcm.c)
+target_link_libraries(test_lcm PRIVATE arithmos)
+add_executable(test_power test_power.c)
+target_link_libraries(test_power PRIVATE arithmos)
+add_executable(test_rational test_rational.c)
+target_link_libraries(test_rational PRIVATE arithmos)
+
+
+add_test(NAME BigIntTests COMMAND test_big_int)
+add_test(NAME GCDTests COMMAND test_gcd)
+add_test(NAME LCMTests COMMAND test_lcm)
+add_test(NAME PowerTests COMMAND test_power)
+add_test(NAME RationalTests COMMAND test_rational)
