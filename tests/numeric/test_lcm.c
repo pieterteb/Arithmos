@@ -64,8 +64,10 @@ int main(void) {
     TEST(arith_lcm_u64, 123456, 789012, 8117355456);
     TEST(arith_lcm_u64, ARITH_U64_MAX, ARITH_U64_MAX, ARITH_U64_MAX);
 
+
     if (!passed)
         return 1;
+
 
     return 0;
 }

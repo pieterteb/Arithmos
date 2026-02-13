@@ -67,8 +67,10 @@ int main(void) {
     TEST(arith_gcd_u64, 1000000000, 2, 2);
     TEST(arith_gcd_u64, ARITH_U64_MAX, ARITH_U64_MAX, ARITH_U64_MAX);
 
+
     if (!passed)
         return 1;
+
 
     return 0;
 }

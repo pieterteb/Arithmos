@@ -43,8 +43,10 @@ int main(void) {
     TEST(arith_unsigned_abs_i64, ARITH_I64_MIN, (arith_u64)ARITH_I64_MAX + 1);
     TEST(arith_unsigned_abs_i64, ARITH_I64_MAX, ARITH_I64_MAX);
 
+
     if (!passed)
         return 1;
+
 
     return 0;
 }
