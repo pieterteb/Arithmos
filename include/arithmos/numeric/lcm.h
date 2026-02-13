@@ -19,11 +19,11 @@ arith_i64 arith_lcm_i64(const arith_i64 m, const arith_i64 n);
 
 // Computes least common multiple (lcm) of `m` and `n`. If `lcm(m, n)` is not
 // representable as a value of type `arith_u32`, returns `lcm(m, n) (mod ARITH_U32_MAX + 1)`.
-arith_u32 arith_lcm_u32(arith_u32 m, arith_u32 n);
+arith_u32 arith_lcm_u32(arith_u32 m, const arith_u32 n);
 
 // Computes least common multiple (lcm) of `m` and `n`. If `lcm(m, n)` is not
 // representable as a value of type `arith_u64`, returns `lcm(m, n) (mod ARITH_U64_MAX + 1)`.
-arith_u64 arith_lcm_u64(arith_u64 m, arith_u64 n);
+arith_u64 arith_lcm_u64(arith_u64 m, const arith_u64 n);
 
 
 

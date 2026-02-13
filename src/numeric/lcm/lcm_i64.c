@@ -19,35 +19,32 @@ extern arith_i64 arith_lcm_i64(const arith_i64 m, const arith_i64 n) {
     if (m == 0 || n == 0)
         return 0;
 
-    arith_u64 um = internal_unsigned_abs_i64(m);
-    arith_u64 un = internal_unsigned_abs_i64(n);
-
-    arith_u64 um_cpy       = um;
-    const arith_u64 un_cpy = un;
+    arith_u64 um       = internal_unsigned_abs_i64(m);
+    const arith_u64 un = internal_unsigned_abs_i64(n);
 
     const unsigned i = internal_ctz_u64(um);
-    um >>= i;
+    arith_u64 um_cpy = um >> i;
     const unsigned j = internal_ctz_u64(un);
-    un >>= j;
+    arith_u64 un_cpy = un >> j;
     const unsigned k = (i < j) ? i : j;
 
-    um_cpy >>= k;
+    um >>= k;
 
     while (true) {
-        const arith_u64 temp_n = un;
-        const arith_u64 diff   = um - un;
-        un                     = -diff;
+        const arith_u64 temp_n = un_cpy;
+        const arith_u64 diff   = um_cpy - un_cpy;
+        un_cpy                 = -diff;
 
-        if (internal_unlikely(un == 0))
+        if (internal_unlikely(un_cpy == 0))
             break;
 
-        if (um > temp_n) {
-            um = temp_n;
-            un = diff;
+        if (um_cpy > temp_n) {
+            um_cpy = temp_n;
+            un_cpy = diff;
         }
 
-        un >>= internal_ctz_u64(un);
+        un_cpy >>= internal_ctz_u64(un_cpy);
     }
 
-    return (arith_i64)(um_cpy / um * un_cpy);
+    return (arith_i64)(um / um_cpy * un);
 }

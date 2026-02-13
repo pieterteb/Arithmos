@@ -19,35 +19,32 @@ extern arith_i32 arith_lcm_i32(const arith_i32 m, const arith_i32 n) {
     if (m == 0 || n == 0)
         return 0;
 
-    arith_u32 um = internal_unsigned_abs_i32(m);
-    arith_u32 un = internal_unsigned_abs_i32(n);
-
-    arith_u32 um_cpy       = um;
-    const arith_u32 un_cpy = un;
+    arith_u32 um       = internal_unsigned_abs_i32(m);
+    const arith_u32 un = internal_unsigned_abs_i32(n);
 
     const unsigned i = internal_ctz_u32(um);
-    um >>= i;
+    arith_u32 um_cpy = um >> i;
     const unsigned j = internal_ctz_u32(un);
-    un >>= j;
+    arith_u32 un_cpy = un >> j;
     const unsigned k = (i < j) ? i : j;
 
-    um_cpy >>= k;
+    um >>= k;
 
     while (true) {
-        const arith_u32 temp_n = un;
-        const arith_u32 diff   = um - un;
-        un                     = -diff;
+        const arith_u32 temp_n = un_cpy;
+        const arith_u32 diff   = um_cpy - un_cpy;
+        un_cpy                 = -diff;
 
-        if (internal_unlikely(un == 0))
+        if (internal_unlikely(un_cpy == 0))
             break;
 
-        if (um > temp_n) {
-            um = temp_n;
-            un = diff;
+        if (um_cpy > temp_n) {
+            um_cpy = temp_n;
+            un_cpy = diff;
         }
 
-        un >>= internal_ctz_u32(un);
+        un_cpy >>= internal_ctz_u32(un_cpy);
     }
 
-    return (arith_i32)(um_cpy / um * un_cpy);
+    return (arith_i32)(um / um_cpy * un);
 }

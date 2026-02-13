@@ -12,7 +12,7 @@
 
 
 
-extern arith_u64 arith_lcm_u64(arith_u64 m, arith_u64 n) {
+extern arith_u64 arith_lcm_u64(arith_u64 m, const arith_u64 n) {
     // We use the identity:
     //
     //      lcm(m, n) = m * n / gcd(m, n)
@@ -22,32 +22,29 @@ extern arith_u64 arith_lcm_u64(arith_u64 m, arith_u64 n) {
     if (m == 0 || n == 0)
         return 0;
 
-    arith_u64 m_cpy       = m;
-    const arith_u64 n_cpy = n;
-
     const unsigned i = internal_ctz_u64(m);
-    m >>= i;
+    arith_u64 m_cpy  = m >> i;
     const unsigned j = internal_ctz_u64(n);
-    n >>= j;
+    arith_u64 n_cpy  = n >> j;
     const unsigned k = (i < j) ? i : j;
 
-    m_cpy >>= k;
+    m >>= k;
 
     while (true) {
-        const arith_u64 temp_n = n;
-        const arith_u64 diff   = m - n;
-        n                      = -diff;
+        const arith_u64 temp_n = n_cpy;
+        const arith_u64 diff   = m_cpy - n_cpy;
+        n_cpy                  = -diff;
 
-        if (internal_unlikely(n == 0))
+        if (internal_unlikely(n_cpy == 0))
             break;
 
-        if (m > temp_n) {
-            m = temp_n;
-            n = diff;
+        if (m_cpy > temp_n) {
+            m_cpy = temp_n;
+            n_cpy = diff;
         }
 
-        n >>= internal_ctz_u64(n);
+        n_cpy >>= internal_ctz_u64(n_cpy);
     }
 
-    return m_cpy / m * n_cpy;
+    return m / m_cpy * n;
 }
