@@ -146,7 +146,7 @@ int main(void) {
     TEST_MOD(arith_power_mod_u64, ARITH_U64_MAX, 2, 97, 11);
     TEST_MOD(arith_power_mod_u64, ARITH_U64_MAX, ARITH_U64_MAX, ARITH_U64_MAX - 1, 1);
     TEST_MOD(arith_power_mod_u64, ARITH_U64_MAX, ARITH_U64_MAX, 13, 8);
-    TEST_MOD(arith_power_mod_u64, 7, 1000, ARITH_U64_MAX - 1, 16134194563271013985);
+    TEST_MOD(arith_power_mod_u64, 7, 1000, ARITH_U64_MAX - 1, 16134194563271013985ULL);
 
 
 
