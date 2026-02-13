@@ -78,7 +78,7 @@ To obtain a copy of the library and setup CMake, run the following commands:
 ```bash
 git clone https://github.com/pieterteb/Arithmos.git
 cd Arithmos
-mkdir -p build
+mkdir build
 cd build
 cmake ..
 cmake --build .
