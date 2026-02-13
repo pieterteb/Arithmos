@@ -1,0 +1,9 @@
+target_sources(arithmos
+    PRIVATE
+        mod_mul_i32.c
+        mod_mul_i64.c
+        mod_mul_u32.c
+        mod_mul_u64.c
+        multiply_i64.c
+        multiply_u64.c
+)

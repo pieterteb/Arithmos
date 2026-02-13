@@ -1,0 +1,11 @@
+target_sources(arithmos
+    PRIVATE
+        power_i32.c
+        power_i64.c
+        power_mod_i32.c
+        power_mod_i64.c
+        power_mod_u32.c
+        power_mod_u64.c
+        power_u32.c
+        power_u64.c
+)

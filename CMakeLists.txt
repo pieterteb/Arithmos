@@ -1,34 +1,48 @@
 cmake_minimum_required(VERSION 3.16)
-project(Arithmos LANGUAGES C)
 
-# Specify C standard
+project(Arithmos
+    VERSION 0.0.0
+    LANGUAGES C
+)
+
+
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_EXTENSIONS OFF)
 
-# Options
-option(BUILD_TESTS "Build unit tests" ON)
-option(BUILD_BENCH "Build benchmarks" ON)
-option(BUILD_DOCS "Build documentation" OFF)    # Optional
+set(CMAKE_VERBOSE_MAKEFILE OFF CACHE BOOL "Always show compile commands" FORCE)
 
-# Include directories for public headers
-include_directories(${PROJECT_SOURCE_DIR}/include)
 
-# Add subdirectories with modules
-add_subdirectory(src)
+add_custom_target(debug
+    COMMAND ${CMAKE_COMMAND} -DCMAKE_BUILD_TYPE=Debug ..
+    COMMAND ${CMAKE_COMMAND} --build .
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+)
 
-# Build tests if enabled
-if(BUILD_TESTS)
+add_custom_target(release
+    COMMAND ${CMAKE_COMMAND} -DCMAKE_BUILD_TYPE=Release ..
+    COMMAND ${CMAKE_COMMAND} --build .
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+)
+
+add_custom_target(tests
+    COMMAND ${CMAKE_COMMAND} -DCMAKE_BUILD_TYPE=Tests ..
+    COMMAND ${CMAKE_COMMAND} --build .
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+)
+
+add_custom_target(bench
+    COMMAND ${CMAKE_COMMAND} -DCMAKE_BUILD_TYPE=Bench ..
+    COMMAND ${CMAKE_COMMAND} --build .
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+)
+
+
+if(CMAKE_BUILD_TYPE STREQUAL "Tests")
     enable_testing()
-    add_subdirectory(test)
-endif()
-
-# Build benchmarks if enabled
-if(BUILD_BENCH)
+    add_subdirectory(tests)
+elseif(CMAKE_BUILD_TYPE STREQUAL "Bench")
     add_subdirectory(bench)
 endif()
 
-# Build docs if enabled
-if(BUILD_DOCS)
-    find_package(Doxygen REQUIRED)
-    add_subdirectory(docs)
-endif()
+add_subdirectory(src)
