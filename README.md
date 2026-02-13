@@ -76,7 +76,7 @@ Arithmos uses **CMake** as its primary build system. Convenience `make` targets 
 To obtain a copy of the library and setup CMake, run the following commands:
 
 ```bash
-git clone https://www.github.com/pieterteb/Arithmos.git
+git clone https://github.com/pieterteb/Arithmos.git
 cd Arithmos
 mkdir -p build
 cd build
