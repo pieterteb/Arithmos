@@ -4,21 +4,15 @@ target_include_directories(arithmos
     PUBLIC
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
-
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 
+# Base compile flags
 set(C_BASE_COMPILE_FLAGS
-    -std=c11
-
-    # Diagnostic flags
     -fdiagnostics-color=always
-
-    # Warning flags
     -Wno-unknown-warning-option
-
     -Werror
     -Wpedantic
     -Wall
@@ -53,14 +47,8 @@ set(C_BASE_COMPILE_FLAGS
 )
 
 set(CXX_BASE_COMPILE_FLAGS
-    -std=c++20
-
-    # Diagnostic flags
     -fdiagnostics-color=always
-
-    # Warning flags
     -Wno-unknown-warning-option
-
     -Werror
     -Wpedantic
     -Wall
@@ -91,7 +79,7 @@ set(CXX_BASE_COMPILE_FLAGS
 )
 
 set(DEBUG_COMPILE_FLAGS
-    -g    
+    -g
     -O0
     -fsanitize=address
     -fstack-protector-all
@@ -100,30 +88,25 @@ set(DEBUG_COMPILE_FLAGS
 
 set(RELEASE_COMPILE_FLAGS
     -O3
+    # -flto
     -march=native
-    -flto
     -fno-stack-protector
     -DNDEBUG
 )
 
 
-add_library(c-compile-flags INTERFACE)
-add_library(cxx-compile-flags INTERFACE)
-target_compile_options(c-compile-flags INTERFACE ${C_BASE_COMPILE_FLAGS})
-target_compile_options(cxx-compile-flags INTERFACE ${CXX_BASE_COMPILE_FLAGS})
+target_compile_options(arithmos PRIVATE ${C_BASE_COMPILE_FLAGS})
+
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    target_compile_options(c-compile-flags INTERFACE ${DEBUG_COMPILE_FLAGS})
-    target_compile_options(cxx-compile-flags INTERFACE ${DEBUG_COMPILE_FLAGS})
+    target_compile_options(arithmos PUBLIC ${DEBUG_COMPILE_FLAGS})
 else()
-    target_compile_options(c-compile-flags INTERFACE ${RELEASE_COMPILE_FLAGS})
-    target_compile_options(cxx-compile-flags INTERFACE ${RELEASE_COMPILE_FLAGS})
+    target_compile_options(arithmos PUBLIC ${RELEASE_COMPILE_FLAGS})
 endif()
 
 
-# Link to standard math library
-target_link_libraries(arithmos PRIVATE c-compile-flags m)
+# Link math library
+target_link_libraries(arithmos PRIVATE m)
 
 
-# add_subdirectory(algebra)
 add_subdirectory(numeric)

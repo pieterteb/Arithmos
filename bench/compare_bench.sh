@@ -58,23 +58,20 @@ run_bench() {
     echo "Compiler: $compiler" >> "${prefix}.meta"
 
     taskset -c 0 \
-    perf stat \
-        -e cycles,instructions,branches,branch-misses,cache-references,cache-misses \
-        "$BENCH_BIN" \
+        "$build_dir/$BENCH_BIN" \
         --benchmark_min_time=1 \
         --benchmark_repetitions=5 \
         --benchmark_report_aggregates_only=true \
         --benchmark_out="${prefix}.json" \
-        --benchmark_out_format=json \
-        2> "${prefix}.perf"
+        --benchmark_out_format=json
 }
 
 
 build_branch "$BASE_BRANCH" "$BASE_COMPILER" "$BASE_BUILD_DIR"
-# run_bench "$BASE_BUILD_DIR" "$RESULTS_DIR/base"
-
 build_branch "$DEV_BRANCH" "$DEV_COMPILER" "$DEV_BUILD_DIR"
-# run_bench "$DEV_BUILD_DIR" "$RESULTS_DIR/dev"
+
+run_bench "$BASE_BUILD_DIR" "$RESULTS_DIR/base" "$BASE_COMPILER"
+run_bench "$DEV_BUILD_DIR" "$RESULTS_DIR/dev" "$DEV_COMPILER"
 
 
 echo "Done"

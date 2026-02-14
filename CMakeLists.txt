@@ -9,7 +9,10 @@ project(Arithmos
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 
 set(CMAKE_VERBOSE_MAKEFILE OFF CACHE BOOL "Always show compile commands" FORCE)
 
@@ -39,11 +42,18 @@ add_custom_target(bench
 )
 
 
+# Build type defaults to Release
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "" FORCE)
+endif()
+
+
+add_subdirectory(src)
+
+
 if(CMAKE_BUILD_TYPE STREQUAL "Tests")
     enable_testing()
     add_subdirectory(tests)
 elseif(CMAKE_BUILD_TYPE STREQUAL "Bench")
     add_subdirectory(bench)
 endif()
-
-add_subdirectory(src)
