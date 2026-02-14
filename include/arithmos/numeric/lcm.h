@@ -4,6 +4,10 @@
 #ifndef ARITHMOS_NUMBER_GCD_H_
 #define ARITHMOS_NUMBER_GCD_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 #include "arithmos/core/types.h"
 
@@ -26,5 +30,9 @@ arith_u32 arith_lcm_u32(arith_u32 m, const arith_u32 n);
 arith_u64 arith_lcm_u64(arith_u64 m, const arith_u64 n);
 
 
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif  // #ifndef ARITHMOS_NUMBER_GCD_H_

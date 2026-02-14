@@ -4,6 +4,10 @@
 #ifndef ARITHMOS_NUMERIC_MULTIPLY_H_
 #define ARITHMOS_NUMERIC_MULTIPLY_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 #include "arithmos/core/types.h"
 
@@ -33,5 +37,9 @@ arith_i128 arith_multiply_i64(const arith_i64 multiplier, const arith_i64 multip
 arith_u128 arith_multiply_u64(const arith_u64 multiplier, const arith_u64 multiplicand);
 
 
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif  // #ifndef ARITHMOS_NUMERIC_MULTIPLY_H_

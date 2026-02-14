@@ -4,6 +4,10 @@
 #ifndef ARITHMOS_NUMERIC_POWER_H_
 #define ARITHMOS_NUMERIC_POWER_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 #include "arithmos/core/types.h"
 
@@ -53,5 +57,9 @@ arith_u32 arith_power_mod_u32(const arith_u32 base, arith_u32 exponent, const ar
 arith_u64 arith_power_mod_u64(const arith_u64 base, arith_u64 exponent, const arith_u64 modulus);
 
 
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif  // #ifndef ARITHMOS_NUMERIC_POWER_H_

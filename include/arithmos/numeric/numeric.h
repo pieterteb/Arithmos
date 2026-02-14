@@ -4,6 +4,10 @@
 #ifndef ARITHMOS_NUMERIC_H_
 #define ARITHMOS_NUMERIC_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 #include "arithmos/numeric/abs.h"
 #include "arithmos/numeric/gcd.h"
@@ -11,5 +15,9 @@
 #include "arithmos/numeric/multiply.h"
 #include "arithmos/numeric/power.h"
 
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif  // #ifndef ARITHMOS_NUMERIC_H_

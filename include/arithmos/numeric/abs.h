@@ -4,6 +4,10 @@
 #ifndef ARITHMOS_NUMERIC_ABS_H_
 #define ARITHMOS_NUMERIC_ABS_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 #include "arithmos/core/types.h"
 
@@ -24,5 +28,9 @@ arith_u32 arith_unsigned_abs_i32(const arith_i32 x);
 arith_u64 arith_unsigned_abs_i64(const arith_i64 x);
 
 
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif  // #ifdef ARITHMOS_NUMERIC_ABS_H_

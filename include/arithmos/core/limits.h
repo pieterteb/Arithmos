@@ -4,6 +4,10 @@
 #ifndef ARITHMOS_CORE_LIMITS_H_
 #define ARITHMOS_CORE_LIMITS_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 #include <stdint.h>
 
@@ -17,5 +21,9 @@
 #define ARITH_U64_MAX UINT64_MAX
 
 
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif  // ARITHMOS_CORE_LIMITS_H_

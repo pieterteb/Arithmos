@@ -2,11 +2,9 @@
 #include <random>
 #include <vector>
 
-extern "C" {
 #include "arithmos/core/limits.h"
 #include "arithmos/core/types.h"
 #include "arithmos/numeric/power.h"
-}
 
 
 

@@ -32,21 +32,21 @@ build_branch() {
     rm -rf "$build_dir"
     mkdir -p "$build_dir"
 
+    if [ "$compiler" = "gcc" ]; then
+        cppcompiler="g++"
+    elif [ "$compiler" = "clang" ]; then
+        cppcompiler="clang++"
+    fi
+
     # Build Arithmos library
     cmake -S . -B "$build_dir" \
         -DCMAKE_BUILD_TYPE=Bench \
         -DCMAKE_C_COMPILER=$compiler
     cmake --build "$build_dir" -j
 
-    if [ "$compiler" = "gcc" ]; then
-        cppcompiler="g++"
-    else if [ "$compiler" = "clang" ]; then
-        cppcompiler="clang++"
-
     # Compile benchmark manually linking the library
-    $cppcompiler -std=c++20 -O3 -march=native \
+    $cppcompiler -std=c++20 -O3 -march=native -flto \
         -Iinclude \
-        -I/usr/local/include \
         "bench/$BENCH_SOURCE" \
         -L "$build_dir/src" -larithmos \
         -L/usr/local/lib -lbenchmark -lpthread \
@@ -72,3 +72,7 @@ run_bench() {
 # Build both branches
 build_branch "$BASE_BRANCH" "$BASE_COMPILER" "$BASE_BUILD_DIR"
 build_branch "$DEV_BRANCH" "$DEV_COMPILER" "$DEV_BUILD_DIR"
+
+# Run both branches
+run_bench "$BASE_BUILD_DIR" "bench/results/base_results"
+run_bench "$DEV_BUILD_DIR" "bench/results/dev_results"

@@ -2,6 +2,8 @@
 /build_base/
 /build_dev/
 
+/bench/results/
+
 /compile_commands.json
 
 /.vscode/
