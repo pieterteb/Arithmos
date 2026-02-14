@@ -1,0 +1,2 @@
+add_executable(bench_power_mod_i32 bench_power_mod_i32.cpp)
+target_link_libraries(bench_power_mod_i32 PRIVATE bench-lib)

@@ -17,62 +17,64 @@ DEV_COMPILER=$5
 BASE_BUILD_DIR="build_base"
 DEV_BUILD_DIR="build_dev"
 
+RESULTS_DIR="bench/results"
+mkdir -p "$RESULTS_DIR"
 
-# Function to build a branch with a specific compiler
+
+# Exit if perf is not available.
+command -v perf >/dev/null || { echo "perf not found"; exit 1; }
+
+
+# Function to build a branch with a specific compiler.
 build_branch() {
     local branch=$1
     local compiler=$2
     local build_dir=$3
 
-    echo "=== Building branch '$branch' with '$compiler' ==="
+    echo "Building '$branch' ($compiler)"
 
     git checkout "$branch"
 
-    # Clean build directory
     rm -rf "$build_dir"
-    mkdir -p "$build_dir"
 
-    if [ "$compiler" = "gcc" ]; then
-        cppcompiler="g++"
-    elif [ "$compiler" = "clang" ]; then
-        cppcompiler="clang++"
-    fi
-
-    # Build Arithmos library
     cmake -S . -B "$build_dir" \
         -DCMAKE_BUILD_TYPE=Bench \
-        -DCMAKE_C_COMPILER=$compiler
-    cmake --build "$build_dir" -j
+        -DCMAKE_C_COMPILER=$compiler \
+        -DCMAKE_CXX_COMPILER=${compiler/cc/++}
 
-    # Compile benchmark manually linking the library
-    $cppcompiler -std=c++20 -O3 -march=native -flto \
-        -Iinclude \
-        "bench/$BENCH_SOURCE" \
-        -L "$build_dir/src" -larithmos \
-        -L/usr/local/lib -lbenchmark -lpthread \
-        -o "$build_dir/src/$BENCH_BIN"
+    cmake --build "$build_dir" --parallel
 }
 
 
-# Function to run benchmark and collect perf stats
+# Function to run benchmark and collect perf stats.
 run_bench() {
     local build_dir=$1
-    local out_prefix=$2
+    local prefix=$2
+    local compiler=$3
 
-    echo "=== Running benchmark in $build_dir ==="
-    echo "--- Google Benchmark Output ---"
-    $build_dir/src/$BENCH_BIN --benchmark_out="$out_prefix.json" --benchmark_out_format=json
+    echo "Running $build_dir"
 
-    echo "--- perft stats ---"
-    perf stat -e cycles,instructions,branches,branch-misses,cache-references,cache-misses \
-        "$build_dir/src/$BENCH_BIN" 2> "$out_prefix.perf"
+    echo "Commit:   $(git rev-parse HEAD)" > "${prefix}.meta"
+    echo "Compiler: $compiler" >> "${prefix}.meta"
+
+    taskset -c 0 \
+    perf stat \
+        -e cycles,instructions,branches,branch-misses,cache-references,cache-misses \
+        "$BENCH_BIN" \
+        --benchmark_min_time=1 \
+        --benchmark_repetitions=5 \
+        --benchmark_report_aggregates_only=true \
+        --benchmark_out="${prefix}.json" \
+        --benchmark_out_format=json \
+        2> "${prefix}.perf"
 }
 
 
-# Build both branches
 build_branch "$BASE_BRANCH" "$BASE_COMPILER" "$BASE_BUILD_DIR"
-build_branch "$DEV_BRANCH" "$DEV_COMPILER" "$DEV_BUILD_DIR"
+# run_bench "$BASE_BUILD_DIR" "$RESULTS_DIR/base"
 
-# Run both branches
-run_bench "$BASE_BUILD_DIR" "bench/results/base_results"
-run_bench "$DEV_BUILD_DIR" "bench/results/dev_results"
+build_branch "$DEV_BRANCH" "$DEV_COMPILER" "$DEV_BUILD_DIR"
+# run_bench "$DEV_BUILD_DIR" "$RESULTS_DIR/dev"
+
+
+echo "Done"

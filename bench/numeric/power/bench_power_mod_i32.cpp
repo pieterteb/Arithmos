@@ -30,7 +30,7 @@ static void generate_inputs(size_t N) {
 }
 
 static void bench(benchmark::State& state) {
-    size_t N = 10000;
+    constexpr size_t N = 1000000;
 
     generate_inputs(N);
 
