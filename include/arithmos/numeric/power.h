@@ -41,7 +41,7 @@ arith_i32 arith_power_mod_i32(const arith_i32 base, arith_u32 exponent, const ar
 // If `base ^ exponent (mod modulus)` is not representable as a value of `arith_i64`, the
 // behaviour is undefined (this case will not occur if `modulus <= ARITH_I64_MAX + 1`).
 // Note that `arith_power_mod_i32()` is considerably faster than `arith_power_mod_i64()`.
-arith_i64 arith_power_mod_i64(const arith_i64 base, arith_u64 exponent, const arith_u64 modulus);
+arith_i64 arith_power_mod_i64(arith_i64 base, arith_u64 exponent, const arith_u64 modulus);
 
 // Computes `base ^ exponent (mod modulus)` where `^` is exponentiation. If `modulus` is `0`,
 // the behaviour is undefined. If both `base` and `exponent` are `0`, `base ^ exponent == 1`.

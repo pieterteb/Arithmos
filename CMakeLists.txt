@@ -42,7 +42,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Tests")
     enable_testing()
     add_subdirectory(tests)
 elseif(CMAKE_BUILD_TYPE STREQUAL "Bench")
-    add_subdirectory(bench)
+    find_package(benchmark REQUIRED)
 endif()
 
 add_subdirectory(src)

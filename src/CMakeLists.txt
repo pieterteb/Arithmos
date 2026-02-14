@@ -4,19 +4,10 @@ target_include_directories(arithmos
     PUBLIC
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
-)
 
-if(CMAKE_BUILD_TYPE STREQUAL "Bench")
-    target_include_directories(arithmos
-        PUBLIC
-            ${CMAKE_CURRENT_SOURCE_DIR}
-    )
-else()
-    target_include_directories(arithmos
-        PRIVATE
-            ${CMAKE_CURRENT_SOURCE_DIR}
-    )
-endif()
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
 
 set(BASE_COMPILE_FLAGS
