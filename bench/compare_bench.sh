@@ -41,9 +41,11 @@ build_branch() {
     # Compile benchmark manually linking the library
     g++ -std=c++20 -O3 -march=native \
         -Iinclude \
-        "$BENCH_SOURCE" \
+        -I/usr/local/include \
+        "bench/$BENCH_SOURCE" \
         -L "$build_dir/src" -larithmos \
-        -o "$build_dir/$BENCH_BIN"
+        -L/usr/local/lib -lbenchmark -lpthread \
+        -o "$build_dir/src/$BENCH_BIN"
 }
 
 
@@ -54,11 +56,11 @@ run_bench() {
 
     echo "=== Running benchmark in $build_dir ==="
     echo "--- Google Benchmark Output ---"
-    $build_dir/$BENCH_BIN --benchmark_out="$out_prefix.json" --benchmark_out_format=json
+    $build_dir/src/$BENCH_BIN --benchmark_out="$out_prefix.json" --benchmark_out_format=json
 
     echo "--- perft stats ---"
     perf stat -e cycles,instructions,branches,branch-misses,cache-references,cache-misses \
-        "$build_dir/$BENCH_BIN" 2> "$out_prefix.perf"
+        "$build_dir/src/$BENCH_BIN" 2> "$out_prefix.perf"
 }
 
 
