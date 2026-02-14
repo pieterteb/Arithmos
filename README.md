@@ -189,7 +189,7 @@ int main(void) {
 
 ## Optimization Philosophy
 
-All implementations are designed with the assumption of **random inputs**. Benchmarks are run using both the **GCC and Clang** compilers. While optimizations **prioritize GCC builds**, large performance differences between GCC and Clang are considered undesirable and treated as bugs.
+All implementations are designed with the assumption of **random inputs**. Benchmarks are run using both the **GCC and Clang** compilers. While optimizations **prioritize Clang builds**, large performance differences between GCC and Clang are considered undesirable and treated as bugs.
 
 This project serves as a learning platform for:
 
