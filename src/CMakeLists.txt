@@ -17,6 +17,7 @@ set(BASE_COMPILE_FLAGS
     -fdiagnostics-color=always
 
     # Warning flags
+    -Wno-unknown-warning-option
     -Werror
     -Wpedantic
     -Wall

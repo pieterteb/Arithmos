@@ -38,8 +38,13 @@ build_branch() {
         -DCMAKE_C_COMPILER=$compiler
     cmake --build "$build_dir" -j
 
+    if [ "$compiler" = "gcc" ]; then
+        cppcompiler="g++"
+    else if [ "$compiler" = "clang" ]; then
+        cppcompiler="clang++"
+
     # Compile benchmark manually linking the library
-    g++ -std=c++20 -O3 -march=native \
+    $cppcompiler -std=c++20 -O3 -march=native \
         -Iinclude \
         -I/usr/local/include \
         "bench/$BENCH_SOURCE" \
