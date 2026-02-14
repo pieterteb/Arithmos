@@ -11,28 +11,20 @@
 
 
 
-extern arith_i32 arith_power_mod_i32(const arith_i32 base, arith_u32 exponent, const arith_u32 modulus) {
+extern arith_i32 arith_power_mod_i32(arith_i32 base, arith_u32 exponent, const arith_u32 modulus) {
     if (modulus == 1)
         return 0;
 
-    arith_u32 unsigned_base = internal_unsigned_abs_i32(base);
-    if (base < 0)
-        unsigned_base = modulus - (unsigned_base % modulus);
-
-    arith_u32 result = 1;
-
-    if ((exponent & 1) == 1)
-        result = unsigned_base % modulus;
+    arith_i32 result = 1;
 
     while (true) {
+        if ((exponent & 1) == 1)
+            result = internal_mod_mul_i32(result, base, modulus);
+
         if (exponent <= 1)
-            return (arith_i32)result;
+            return (result < 0) ? (arith_i32)((arith_i64)result + modulus) : result;
 
-        do {
-            unsigned_base = internal_mod_mul_u32(unsigned_base, unsigned_base, modulus);
-            exponent >>= 1;
-        } while ((exponent & 1) == 0);
-
-        result = internal_mod_mul_u32(result, unsigned_base, modulus);
+        exponent >>= 1;
+        base = internal_mod_mul_i32(base, base, modulus);
     }
 }
