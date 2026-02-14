@@ -56,6 +56,22 @@ static INLINE arith_u128 internal_multiply_u64(const arith_u64 multiplier, const
 }
 
 
+// Computes `multiplier * multiplicand (mod modulus)`. If `modulus` is `0`, the behaviour is undefined.
+// If `multiplier * multiplicand` is negative, the result will be negative following the natural
+// behaviour of the `%` operator.
+static INLINE arith_i32 internal_mod_mul_i32(const arith_i32 multiplier, const arith_i32 multiplicand,
+                                             const arith_u32 modulus) {
+    return (arith_i32)((arith_i64)multiplier * multiplicand % modulus);
+}
+
+// Computes `multiplier * multiplicand (mod modulus)`. If `modulus` is `0`, the behaviour is undefined.
+// If `multiplier * multiplicand` is negative, the result will be negative following the natural
+// behaviour of the `%` operator.
+static INLINE arith_i64 internal_mod_mul_i64(const arith_i64 multiplier, const arith_i64 multiplicand,
+                                             const arith_u64 modulus) {
+    return (arith_i64)((arith_i128)multiplier * multiplicand % modulus);
+}
+
 // Computes `(multiplier * multiplicand) % modulus`. If `modulus` is `0`, the behaviour is undefined.
 static INLINE arith_u32 internal_mod_mul_u32(const arith_u32 multiplier, const arith_u32 multiplicand,
                                              const arith_u32 modulus) {
